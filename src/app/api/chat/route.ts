@@ -22,14 +22,26 @@ Kitap Bağlamı:
 ${book.fullTextContext}
 `;
 
-    // Use gemini-1.5-pro model for larger context window
-    const result = await streamText({
-      model: google('gemini-1.5-flash'),
-      system: systemPrompt,
-      messages,
-    });
-
-    return result.toDataStreamResponse();
+    try {
+      // Önce en üst ücretsiz versiyonu (gemini-1.5-pro) deniyoruz.
+      const result = await streamText({
+        model: google('gemini-1.5-pro'),
+        system: systemPrompt,
+        messages,
+      });
+      return result.toDataStreamResponse();
+    } catch (e: any) {
+      // Eğer limit dolmuşsa (429) veya bölgesel destek yoksa (404), anında bir alt modele (gemini-1.5-flash) geçiş yap.
+      console.warn("Pro modeli hata verdi veya limit doldu, Flash modeline geçiliyor...", e);
+      
+      const fallbackResult = await streamText({
+        model: google('gemini-1.5-flash'),
+        system: systemPrompt,
+        messages,
+      });
+      
+      return fallbackResult.toDataStreamResponse();
+    }
   } catch (error) {
     console.error("Chat API error:", error);
     return new Response("An error occurred", { status: 500 });
