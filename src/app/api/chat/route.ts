@@ -35,7 +35,7 @@ ${book.fullTextContext}
       console.warn("Pro modeli hata verdi veya limit doldu, Flash modeline geçiliyor...", e);
       
       const fallbackResult = await streamText({
-        model: google('gemini-1.5-flash'),
+        model: google('gemini-pro'),
         system: systemPrompt,
         messages,
       });
