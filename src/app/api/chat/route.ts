@@ -24,7 +24,7 @@ ${book.fullTextContext}
 
     // Use gemini-1.5-pro model for larger context window
     const result = await streamText({
-      model: google('gemini-1.5-pro-latest'), 
+      model: google('gemini-1.5-pro'),
       system: systemPrompt,
       messages,
     });
