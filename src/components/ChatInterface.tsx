@@ -79,7 +79,7 @@ export default function ChatInterface({ bookId }: { bookId: string }) {
           className="flex gap-2"
         >
           <input
-            className="flex-1 bg-neutral-100 border-transparent rounded-full px-5 py-3 text-sm focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+            className="flex-1 bg-neutral-100 border-transparent rounded-full px-5 py-3 text-sm text-neutral-900 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
             value={input}
             placeholder="Kitap hakkında bir soru sorun..."
             onChange={handleInputChange}
