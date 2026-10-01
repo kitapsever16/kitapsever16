@@ -5,7 +5,7 @@ import { Send, User, Bot, Loader2 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function ChatInterface({ bookId }: { bookId: string }) {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
     api: '/api/chat',
     body: {
       bookId
@@ -57,12 +57,27 @@ export default function ChatInterface({ bookId }: { bookId: string }) {
             </div>
           </div>
         )}
+        
+        {/* Hata Mesajı Gösterimi */}
+        {error && (
+          <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-200">
+            <strong>Bağlantı Hatası:</strong> Yapay zekaya bağlanılamadı. Lütfen Google API anahtarınızın doğru ve yetkili olduğundan emin olun.
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input Alanı */}
       <div className="p-4 bg-white border-t border-neutral-100 sticky bottom-0">
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form 
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!isLoading && input.trim()) {
+              handleSubmit(e);
+            }
+          }} 
+          className="flex gap-2"
+        >
           <input
             className="flex-1 bg-neutral-100 border-transparent rounded-full px-5 py-3 text-sm focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
             value={input}
