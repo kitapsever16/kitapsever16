@@ -23,7 +23,7 @@ ${book.fullTextContext}
 `;
 
     // Use gemini-1.5-pro model for larger context window
-    const result = streamText({
+    const result = await streamText({
       model: google('gemini-1.5-pro-latest'), 
       system: systemPrompt,
       messages,
