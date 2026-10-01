@@ -23,19 +23,19 @@ ${book.fullTextContext}
 `;
 
     try {
-      // Önce en üst ücretsiz versiyonu (gemini-1.5-pro) deniyoruz.
+      // Önce en üst ücretsiz versiyonu (gemini-3.8-flash) deniyoruz.
       const result = await streamText({
-        model: google('gemini-1.5-pro'),
+        model: google('gemini-3.8-flash'),
         system: systemPrompt,
         messages,
       });
       return result.toDataStreamResponse();
     } catch (e: any) {
-      // Eğer limit dolmuşsa (429) veya bölgesel destek yoksa (404), anında bir alt modele (gemini-1.5-flash) geçiş yap.
+      // Eğer limit dolmuşsa (429) veya bölgesel destek yoksa (404), anında bir alt modele (gemini-3.8-flash) geçiş yap.
       console.warn("Pro modeli hata verdi veya limit doldu, Flash modeline geçiliyor...", e);
       
       const fallbackResult = await streamText({
-        model: google('gemini-1.5-flash'),
+        model: google('gemini-3.8-flash'),
         system: systemPrompt,
         messages,
       });
